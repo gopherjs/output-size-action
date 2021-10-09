@@ -1,0 +1,18 @@
+name: 'Publish output size report in the PR.'
+description: 'Fetch output size report from the original workflow and post it in the associated pull request as a comment.'
+inputs:
+  report_artifact:
+    description: "Workflow artifact name containing report.md"
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Download report & comment'
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const script = require('${{github.action_path}}/publish.js');
+          await script(github, context, core, exec, "${{inputs.report_artifact}}");
+branding:
+  icon: 'package'  
+  color: 'purple'

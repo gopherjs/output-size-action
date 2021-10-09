@@ -1,0 +1,21 @@
+name: 'Output size'
+description: 'Report compiled output size change for a canonical app.'
+inputs:
+  name:
+    description: 'Canonical app name.'
+    required: true
+  repo:
+    description: 'Git repository with the canonical app source code.'
+    required: true
+  go-package:
+    description: 'Go package to build with GopherJS compiler.'
+  report_json:
+    description: 'File path to save a JSON report to.'
+  report_md:
+    description: 'File path to save a Markdown report to.'
+runs:
+  using: 'node12'
+  main: '../_dist/measure.js'
+branding:
+  icon: 'package'  
+  color: 'purple'
