@@ -145,7 +145,7 @@ func main() {
 		h.Group("Building GopherJS", func() {
 			h.Cd(e.GHWorkspace, func() {
 				h.Must(h.Exec("git", "checkout", dp.Commit), "checkout gopherjs at %s", dp.Commit)
-				h.Must(h.Exec("git", "log", "--oneline", "-1"), "show checked out revision")
+				h.Must(h.Exec("git", "log", "--oneline", "-1", "--no-merges", "--abbrev-commit"), "show checked out revision")
 				goTool := installGo(goVersion("."))
 				h.Must(h.Exec(goTool, "install", "-v", "."), "install gopherjs at %s", dp.Commit)
 			})

@@ -62529,7 +62529,7 @@ $packages["github.com/gopherjs/output-size-action/measure"] = (function() {
 					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; goTool = $f.goTool; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 					_r$4 = helpers.Exec("git", new sliceType$1(["checkout", dp[0].Commit])); /* */ $s = 1; case 1: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
 					$r = helpers.Must(_r$4, "checkout gopherjs at %s", new sliceType([new $String(dp[0].Commit)])); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-					_r$5 = helpers.Exec("git", new sliceType$1(["log", "--oneline", "-1"])); /* */ $s = 3; case 3: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+					_r$5 = helpers.Exec("git", new sliceType$1(["log", "--oneline", "-1", "--no-merges", "--abbrev-commit"])); /* */ $s = 3; case 3: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
 					$r = helpers.Must(_r$5, "show checked out revision", new sliceType([])); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 					_r$6 = goVersion("."); /* */ $s = 5; case 5: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
 					_r$7 = installGo(_r$6); /* */ $s = 6; case 6: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
