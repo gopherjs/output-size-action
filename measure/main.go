@@ -112,7 +112,7 @@ func main() {
 	if e.GHEventName == "pull_request" {
 		r.Trigger = e.Event.PullRequest.HTMLURL
 		r.Measurements = []*report.DataPoint{
-			{Name: fmt.Sprintf("Pull request (%s)", e.GHPRHead), Commit: e.GHPRHead},
+			{Name: fmt.Sprintf("Pull request (%s)", e.GHPRHead), Commit: e.GHCommit},
 			{Name: fmt.Sprintf("Target branch (%s)", e.GHPRBase), Commit: e.GHPRBase},
 		}
 		if e.GHPRBase != "master" {

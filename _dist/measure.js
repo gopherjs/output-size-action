@@ -62471,7 +62471,7 @@ $packages["github.com/gopherjs/output-size-action/measure"] = (function() {
 			r[0].Trigger = e[0].Event.PullRequest.HTMLURL;
 			_r$1 = fmt.Sprintf("Pull request (%s)", new sliceType([new $String(e[0].GHPRHead)])); /* */ $s = 7; case 7: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 			_r$2 = fmt.Sprintf("Target branch (%s)", new sliceType([new $String(e[0].GHPRBase)])); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			r[0].Measurements = new sliceType$2([new report.DataPoint.ptr(_r$1, e[0].GHPRHead, new $Int64(0, 0), new $Int64(0, 0), new $Int64(0, 0)), new report.DataPoint.ptr(_r$2, e[0].GHPRBase, new $Int64(0, 0), new $Int64(0, 0), new $Int64(0, 0))]);
+			r[0].Measurements = new sliceType$2([new report.DataPoint.ptr(_r$1, e[0].GHCommit, new $Int64(0, 0), new $Int64(0, 0), new $Int64(0, 0)), new report.DataPoint.ptr(_r$2, e[0].GHPRBase, new $Int64(0, 0), new $Int64(0, 0), new $Int64(0, 0))]);
 			if (!(e[0].GHPRBase === "master")) {
 				r[0].Measurements = $append(r[0].Measurements, new report.DataPoint.ptr("Master", "master", new $Int64(0, 0), new $Int64(0, 0), new $Int64(0, 0)));
 			}
