@@ -52171,7 +52171,7 @@ $packages["github.com/gopherjs/output-size-action/report"] = (function() {
 			pct = -pct;
 			keyword = "decrease";
 		}
-		_r = fmt.Sprintf("%+0.2f%% %s (%s bytes)", new sliceType([new $Float32(pct), new $String(keyword), new $String(humanize.Comma(baseline))])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = fmt.Sprintf("%0.2f%% %s (%s bytes)", new sliceType([new $Float32(pct), new $String(keyword), new $String(humanize.Comma(new $Int64(proposed.$high - baseline.$high, proposed.$low - baseline.$low)))])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		$24r = _r;
 		$s = 2; case 2: return $24r;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: delta }; } $f.$24r = $24r; $f._r = _r; $f.baseline = baseline; $f.keyword = keyword; $f.pct = pct; $f.proposed = proposed; $f.$s = $s; $f.$r = $r; return $f;

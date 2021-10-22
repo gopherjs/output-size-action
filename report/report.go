@@ -29,7 +29,7 @@ func delta(proposed, baseline int64) string {
 		keyword = "decrease"
 	}
 
-	return fmt.Sprintf("%+0.2f%% %s (%s bytes)", pct, keyword, humanize.Comma(baseline))
+	return fmt.Sprintf("%0.2f%% %s (%s bytes)", pct, keyword, humanize.Comma(proposed-baseline))
 }
 
 // Report contains information about measurements performed.
