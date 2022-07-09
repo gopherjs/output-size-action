@@ -94,9 +94,9 @@ func goVersion(repoRoot string) string {
 // installGo installs the given Go version and returns the appropriate Go command to use.
 func installGo(version string) string {
 	h.Must(
-		h.Exec("go", "install", fmt.Sprintf("golang.org/dl/%s@latest", version)),
+		h.Exec(h.Vars{}, "go", "install", fmt.Sprintf("golang.org/dl/%s@latest", version)),
 		"install %s wrapper", version)
-	h.Must(h.Exec(version, "download"), "download %s", version)
+	h.Must(h.Exec(h.Vars{}, version, "download"), "download %s", version)
 	return version
 }
 
@@ -131,9 +131,9 @@ func main() {
 
 	h.Group("Cloning reference app...", func() {
 		h.Cd(e.TempDir, func() {
-			h.Must(h.Exec("git", "clone", e.Repo, "app"), "clone reference app from %s", e.Repo)
+			h.Must(h.Exec(h.Vars{}, "git", "clone", e.Repo, "app"), "clone reference app from %s", e.Repo)
 			h.Cd("./app", func() {
-				commit, err := h.Capture("git", "rev-parse", "HEAD")
+				commit, err := h.Capture(h.Vars{}, "git", "rev-parse", "HEAD")
 				h.Must(err, "obtain HEAD commit")
 				r.App.Commit = commit
 			})
@@ -142,27 +142,31 @@ func main() {
 
 	for _, dp := range r.Measurements {
 		fmt.Printf("🧪 Measuring size for %s\n", dp.Name)
+		var goTool string
 		h.Group("Building GopherJS", func() {
 			h.Cd(e.GHWorkspace, func() {
-				h.Must(h.Exec("git", "checkout", dp.Commit), "checkout gopherjs at %s", dp.Commit)
-				h.Must(h.Exec("git", "log", "--oneline", "-1", "--no-merges", "--abbrev-commit"), "show checked out revision")
-				goTool := installGo(goVersion("."))
-				h.Must(h.Exec(goTool, "install", "-v", "."), "install gopherjs at %s", dp.Commit)
+				h.Must(h.Exec(h.Vars{}, "git", "checkout", dp.Commit), "checkout gopherjs at %s", dp.Commit)
+				h.Must(h.Exec(h.Vars{}, "git", "log", "--oneline", "-1", "--no-merges", "--abbrev-commit"), "show checked out revision")
+				goTool = installGo(goVersion("."))
+				h.Must(h.Exec(h.Vars{}, goTool, "install", "-v", "."), "install gopherjs at %s", dp.Commit)
 			})
 		})
 
 		h.Group("Building reference app", func() {
 			h.Cd(filepath.Join(e.TempDir, "app"), func() {
-				out := filepath.Join(e.TempDir, "app.js")
+				goroot, err := h.Capture(h.Vars{}, goTool, "env", "GOROOT")
+				h.Must(err, "determine GOROOT")
+				env := h.Vars{"GOPHERJS_GOROOT": goroot}
 
-				h.Must(h.Exec("gopherjs", "build", "-v", "-o", out, "."), "build reference app")
+				out := filepath.Join(e.TempDir, "app.js")
+				h.Must(h.Exec(env, "gopherjs", "build", "-v", "-o", out, "."), "build reference app")
 				dp.Size = h.FileSize(out)
 				h.Must(os.Remove(out), "delete compiled app")
 
-				h.Must(h.Exec("gopherjs", "build", "-v", "-m", "-o", out, "."), "build reference app")
+				h.Must(h.Exec(env, "gopherjs", "build", "-v", "-m", "-o", out, "."), "build reference app")
 				dp.Minified = h.FileSize(out)
 
-				h.Exec("gzip", out)
+				h.Exec(h.Vars{}, "gzip", out)
 				dp.Compressed = h.FileSize(out + ".gz")
 				h.Must(os.Remove(out+".gz"), "delete compiled app")
 			})
