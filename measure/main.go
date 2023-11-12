@@ -94,7 +94,9 @@ func goVersion(repoRoot string) string {
 // installGo installs the given Go version and returns the appropriate Go command to use.
 func installGo(version string) string {
 	h.Must(
-		h.Exec(h.Vars{}, "go", "install", fmt.Sprintf("golang.org/dl/%s@latest", version)),
+		// The installer makes use of the "unix" build constraint was added in Go 1.19. Providing it
+		// here explicitly to maintain compatibility with Go 1.18.
+		h.Exec(h.Vars{}, "go", "install", "--tags=unix", fmt.Sprintf("golang.org/dl/%s@latest", version)),
 		"install %s wrapper", version)
 	h.Must(h.Exec(h.Vars{}, version, "download"), "download %s", version)
 	return version
